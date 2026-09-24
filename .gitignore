@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+dist/
+coverage/
+*.log
+__pycache__/
+.venv/
+.DS_Store
+Thumbs.db
+work/
+customer-data/
+exports/
+*.pub
