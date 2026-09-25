@@ -14,3 +14,6 @@ exports/
 *.pub
 .DS_Store
 Thumbs.db
+deployment.env
+deployment-secrets/
+backups/

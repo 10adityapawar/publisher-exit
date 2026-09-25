@@ -1,0 +1,11 @@
+**
+!Dockerfile
+!package.json
+!server.mjs
+!zip.mjs
+!app.js
+!index.html
+!style.css
+!server.test.mjs
+!docker-entrypoint.mjs
+!docker-entrypoint.test.mjs
