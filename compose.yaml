@@ -1,0 +1,52 @@
+name: publisher-exit
+services:
+  app:
+    build: .
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    environment:
+      PORT: "4317"
+      DATA_DIR: /var/lib/publisher-exit
+      APP_ORIGIN: https://${DOMAIN:?Set DOMAIN in deployment.env}
+      SECURE_COOKIES: "true"
+    volumes:
+      - app_data:/var/lib/publisher-exit
+    secrets: [operator_password, worker_token]
+    tmpfs: ["/tmp:size=64m,mode=1777"]
+    networks: [backend]
+    stop_grace_period: 20s
+    mem_limit: 1g
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in deployment.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app: {condition: service_healthy}
+    networks: [backend, edge]
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+networks:
+  backend: {internal: true}
+  edge: {}
+volumes:
+  app_data: {}
+  caddy_data: {}
+  caddy_config: {}
+secrets:
+  operator_password:
+    file: ./deployment-secrets/operator-password.txt
+  worker_token:
+    file: ./deployment-secrets/worker-token.txt
