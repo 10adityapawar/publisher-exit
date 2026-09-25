@@ -74,7 +74,7 @@ AI may suggest categories/template families and draft reports or training instru
 - Interrupted jobs resume safely and retries are bounded.
 - Customer access boundaries are tested before live files are accepted.
 - Contracted templates and staff handoff are accepted before project completion.
-- Later implementation adds meaningful tests for these behaviors; this initial PR is documentation only.
+- The local MVP includes integration tests for these behaviors. Real Publisher export fidelity still requires licensed-workstation acceptance testing.
 
 ## Commercial validation
 
@@ -87,3 +87,7 @@ Nine $4,000 migrations generate $36,000. Eighteen $199 audits generate $3,582 be
 ## Repository and release workflow
 
 `production` is the default/release branch. Development stays on `staging`. Maintain a draft staging-to-production PR, document validation, and leave promotion to the owner's explicit decision. No deployment is configured by this plan.
+
+## Implemented local pilot
+
+The staging MVP uses Node.js 24, native SQLite, and dependency-free browser assets so a solo operator can run it locally without hosted services. It implements project intake, source uploads and deduplication, leased conversion jobs, quote versions, customer-specific invitation sessions, template feedback and approvals, ZIP/manifest delivery, training gates, and care requests. See README.md for launch instructions, the tested workflow, and remaining deployment requirements. PostgreSQL, object storage, managed MFA, payments, and hosted deployment remain deliberate follow-up integrations. No real Publisher export or automated Canva rebuild is claimed by the integration tests.
